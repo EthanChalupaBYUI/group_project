@@ -10,20 +10,33 @@ datasource db {
 }
 
 model Post {
-  id        String     @default(cuid()) @id
+  id        Int     @default(autoincrement()) @id
   title     String
   content   String?
   published Boolean @default(false)
   author    User?   @relation(fields: [authorId], references: [id])
-  authorId  String?
+  authorId  Int?
+  comments  Comment[]
 }
 
 model User {
-  id            String       @default(cuid()) @id
+  id            Int       @default(autoincrement()) @id
   name          String?
   email         String?   @unique
   createdAt     DateTime  @default(now()) @map(name: "created_at")
   updatedAt     DateTime  @updatedAt @map(name: "updated_at")
   posts         Post[]
+  comment       Comment[]
   @@map(name: "users")
+}
+
+model Comment {
+  id  Int @default(autoincrement()) @id
+  author    User?   @relation(fields: [authorId], references: [id])
+  authorId  Int?
+  post  Post? @relation(fields: [postId], references: [id])
+  postId Int?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  content String
 }
