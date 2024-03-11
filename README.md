@@ -51,3 +51,4 @@ npx prisma generate
 ## Contributers
 Ethan Chalupa 
 Derek Ludlow
+Dawson Bauman
